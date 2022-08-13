@@ -20,6 +20,7 @@ class SinglyLinkedList {
       this.tail = newNode;
     }
     this.length++;
+    return this;
   }
   pop() {
     if (!this.head) return undefined;
@@ -38,6 +39,68 @@ class SinglyLinkedList {
     }
     return current;
   }
+  shift() {
+    if (!this.head) return undefined;
+    let currentHead = this.head;
+    this.head = this.head.next;
+    this.length--;
+    if (this.length === 0) {
+      this.tail = null;
+    }
+    return currentHead;
+  }
+  unshift(val) {
+    let newNode = new Node(val);
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = this.head;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+    this.length++;
+    return this;
+  }
+  get(index) {
+    if (index < 0 || index > this.length) return undefined;
+    let counter = 0;
+    let current = this.head;
+    while (counter !== index) {
+      current = current.next;
+      counter++;
+    }
+    return current;
+  }
+  set(index, val) {
+    let foundNode = this.get(index);
+    if (foundNode) {
+      foundNode.val = val;
+      return true;
+    }
+    return false;
+  }
+  insert(index) {
+    if (index < 0 || index > this.length) return undefined;
+    if (index === this.length) this.push(val);
+    if (index === 0) this.unshift(val);
+    let newNode = new Node(val);
+    let prev = get(index - 1);
+    let temp = prev.next;
+    prev.next = newNode;
+    newNode.next = temp;
+    this.length++;
+    return true;
+  }
+  remove(index) {
+    if (index < 0 || index > this.length) return undefined;
+    if (index === this.length) this.push(val);
+    if (index === 0) this.unshift(val);
+    let previousNode = this.get(index - 1);
+    let removed = previousNode.next;
+    previousNode.next = removed.next;
+    this.length--;
+    return removed;
+  }
 }
 
 let list = new SinglyLinkedList();
@@ -45,5 +108,6 @@ list.push("HI");
 list.push("Hello");
 list.push("How are you?");
 console.log(list);
-list.pop();
+
+list.remove(1);
 console.log(list);
